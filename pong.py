@@ -39,6 +39,12 @@ def draw(window, paddles):
     for paddle in paddles:
         paddle.draw(window)
 
+    # dashed line in the middle
+    for i in range(10, HEIGHT, HEIGHT//20):
+        if i % 2 == 1:
+            continue
+        pygame.draw.rect(window, WHITE, (WIDTH//2 - 5, i, 10, HEIGHT//20))
+
     pygame.display.update()
 
 def handle_paddle_movement(keys, left_paddle, right_paddle):
