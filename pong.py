@@ -2,10 +2,17 @@ import pygame
 
 # constants
 WIDTH, HEIGHT = 700, 500
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("PongAI")
 
 FPS = 60
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+def draw(window):
+    window.fill(BLACK)
+    pygame.display.update()
+
 
 def main():
     run = True
@@ -14,6 +21,8 @@ def main():
     while run:
         # regulate game to 60fps
         clock.tick(FPS)
+        draw(WINDOW) 
+
         for event in pygame.event.get():
 
             # when player clicks close window btn
