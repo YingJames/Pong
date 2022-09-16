@@ -15,14 +15,15 @@ PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
 BALL_RADIUS = 7
 
 SCORE_FONT = pygame.font.SysFont("futura", 50)
+WINNING_SCORE = 5
 
 class Paddle:
     COLOR = WHITE
     VEL = 4
 
     def __init__(self, x, y, width, height) -> None:
-        self.x = x
-        self.y = y
+        self.x = self.original_x = x
+        self.y = self.original_y = y
         self.width = width
         self.height = height
 
@@ -34,6 +35,10 @@ class Paddle:
             self.y -= self.VEL
         else: 
             self.y += self.VEL
+
+    def reset(self):
+        self.x = self.original_x
+        self.y = self.original_y
 
 class Ball:
     INIT_VEL = 3
@@ -164,9 +169,29 @@ def main():
         if (ball.x < 0):
             right_score += 1
             ball.reset(ball.x)
-        elif ball.x > WIDTH:
+        elif (ball.x > WIDTH):
             left_score += 1
             ball.reset(ball.x)
+
+        won = False
+        if (left_score >= WINNING_SCORE):
+            won = True
+            win_text = "Left Player Won!"
+
+        elif (right_score >= WINNING_SCORE):
+            won = True
+            win_text = "Right Player Won!"
+
+        if won:
+            text = SCORE_FONT.render(win_text, 1, WHITE)
+            WINDOW.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
+            pygame.display.update()
+            pygame.time.delay(5000)
+            ball.reset(0)
+            left_paddle.reset()
+            right_paddle.reset()
+            left_score = 0
+            right_score = 0
 
     pygame.quit()
 
