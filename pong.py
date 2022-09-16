@@ -10,12 +10,13 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
+BALL_RADIUS = 7
 
 class Paddle:
     COLOR = WHITE
     VEL = 4
 
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height) -> None:
         self.x = x
         self.y = y
         self.width = width
@@ -30,10 +31,26 @@ class Paddle:
         else: 
             self.y += self.VEL
 
-            
+class Ball:
+    MAX_VEL = 5
+    COLOR = WHITE
+
+    def __init__(self, x, y, radius):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.x_vel = self.MAX_VEL
+        self.y_vel = 0
+
+    def draw(self, window):
+        pygame.draw.circle(window, self.COLOR, (self.x, self.y), self.radius)
+
+    def move(self):
+        self.x += self.x_vel
+        self.y += self.y_vel
 
 
-def draw(window, paddles):
+def draw(window, paddles, ball):
     window.fill(BLACK)
 
     for paddle in paddles:
@@ -45,6 +62,7 @@ def draw(window, paddles):
             continue
         pygame.draw.rect(window, WHITE, (WIDTH//2 - 5, i, 10, HEIGHT//20))
 
+    ball.draw(WINDOW)
     pygame.display.update()
 
 def handle_paddle_movement(keys, left_paddle, right_paddle):
@@ -65,12 +83,13 @@ def main():
     # draws paddle at the edges of the screen
     left_paddle = Paddle(10, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
     right_paddle = Paddle(WIDTH - 10 - PADDLE_WIDTH, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
+    ball = Ball(WIDTH //2, HEIGHT // 2, BALL_RADIUS)
 
     while run:
         # regulate game to 60fps
         clock.tick(FPS)
         
-        draw(WINDOW, [left_paddle, right_paddle]) 
+        draw(WINDOW, [left_paddle, right_paddle], ball) 
 
         for event in pygame.event.get():
             # when player clicks close window btn
@@ -80,6 +99,8 @@ def main():
         
         keys = pygame.key.get_pressed()
         handle_paddle_movement(keys, left_paddle, right_paddle)
+
+        ball.move()
 
     pygame.quit()
 
