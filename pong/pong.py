@@ -1,4 +1,6 @@
 import pygame
+from ball import Ball
+from paddle import Paddle
 pygame.init() 
 
 # constants
@@ -15,58 +17,6 @@ BALL_RADIUS = 7
 
 SCORE_FONT = pygame.font.SysFont("futura", 50)
 WINNING_SCORE = 5
-
-class Paddle:
-    COLOR = WHITE
-    VEL = 4
-
-    def __init__(self, x, y, width, height) -> None:
-        self.x = self.original_x = x
-        self.y = self.original_y = y
-        self.width = width
-        self.height = height
-
-    def draw(self, win):
-        pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.width, self.height))
-
-    def move(self, up=True):
-        if (up):
-            self.y -= self.VEL
-        else: 
-            self.y += self.VEL
-
-    def reset(self):
-        self.x = self.original_x
-        self.y = self.original_y
-
-class Ball:
-    INIT_VEL = 3
-    MAX_VEL = 6
-    COLOR = WHITE
-
-    def __init__(self, x, y, radius):
-        self.x = self.original_x = x
-        self.y = self.original_y = y
-        self.radius = radius
-        self.x_vel = self.INIT_VEL
-        self.y_vel = 0
-
-    def draw(self, window):
-        pygame.draw.circle(window, self.COLOR, (self.x, self.y), self.radius)
-
-    def move(self):
-        self.x += self.x_vel
-        self.y += self.y_vel
-
-    def flip(self, x_vel) -> int:
-        flipped_x_vel = -self.MAX_VEL if x_vel > 0 else self.MAX_VEL
-        return flipped_x_vel
-
-    def reset(self, final_x):
-        self.x = self.original_x
-        self.y = self.original_y
-        self.y_vel = 0
-        self.x_vel = self.INIT_VEL if final_x > 0 else -self.INIT_VEL
 
 
 def draw(window, paddles, ball, left_score, right_score):
