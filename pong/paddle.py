@@ -1,6 +1,7 @@
 import pygame
 
 class Paddle:
+    WIDTH, HEIGHT = 20, 100
     COLOR = (255, 255, 255)
     VEL = 4
 

@@ -12,9 +12,6 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
-PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100
-BALL_RADIUS = 7
-
 SCORE_FONT = pygame.font.SysFont("futura", 50)
 WINNING_SCORE = 5
 
@@ -90,9 +87,9 @@ def main():
     clock = pygame.time.Clock()
 
     # draws paddle at the edges of the screen
-    left_paddle = Paddle(10, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
-    right_paddle = Paddle(WIDTH - 10 - PADDLE_WIDTH, HEIGHT//2 - PADDLE_HEIGHT//2, PADDLE_WIDTH, PADDLE_HEIGHT)
-    ball = Ball(WIDTH //2, HEIGHT // 2, BALL_RADIUS)
+    left_paddle = Paddle(10, HEIGHT//2 - Paddle.HEIGHT//2, Paddle.WIDTH, Paddle.HEIGHT)
+    right_paddle = Paddle(WIDTH - 10 - Paddle.WIDTH, HEIGHT//2 - Paddle.HEIGHT//2, Paddle.WIDTH, Paddle.HEIGHT)
+    ball = Ball(WIDTH //2, HEIGHT // 2, Ball.RADIUS)
 
     left_score = 0
     right_score = 0

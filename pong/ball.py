@@ -1,6 +1,7 @@
 import pygame
 
 class Ball:
+    RADIUS = 7
     INIT_VEL = 3
     MAX_VEL = 6
     COLOR = (255, 255, 255)
