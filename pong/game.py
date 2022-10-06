@@ -5,17 +5,18 @@ pygame.init()
 
 class Game:
 
+    FPS = 60
+    SCORE_FONT = pygame.font.SysFont("futura", 50)
+    WINNING_SCORE = 5
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+
     def __init__(self, WIDTH, HEIGHT) -> None:
         pygame.display.set_caption("PongAI")
 
         # constants
         self.WIDTH, self.HEIGHT = WIDTH, HEIGHT
         self.WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-        self.FPS = 60
-        self.SCORE_FONT = pygame.font.SysFont("futura", 50)
-        self.WINNING_SCORE = 5
-        self.WHITE = (255, 255, 255)
-        self.BLACK = (0, 0, 0)
         
         # initial game set
         self.left_paddle = Paddle(10, self.HEIGHT//2 - Paddle.HEIGHT//2, Paddle.WIDTH, Paddle.HEIGHT)
@@ -26,10 +27,10 @@ class Game:
         self.right_score = 0
 
     def render(self, window, paddles, ball, left_score, right_score):
-        window.fill(self.BLACK)
+        window.fill(BLACK)
 
-        left_score_text = self.SCORE_FONT.render(f"{self.left_score}", 1, self.WHITE)
-        right_score_text = self.SCORE_FONT.render(f"{self.right_score}", 1, self.WHITE)
+        left_score_text = SCORE_FONT.render(f"{self.left_score}", 1, WHITE)
+        right_score_text = SCORE_FONT.render(f"{self.right_score}", 1, WHITE)
         window.blit(left_score_text, (self.WIDTH // 4 - left_score_text.get_width()//2, 20))
         window.blit(right_score_text, (self.WIDTH * (3/4) - right_score_text.get_width()//2, 20))
 
@@ -40,7 +41,7 @@ class Game:
         for i in range(10, self.HEIGHT, self.HEIGHT//20):
             if i % 2 == 1:
                 continue
-            pygame.draw.rect(window, self.WHITE, (self.WIDTH//2 - 5, i, 10, self.HEIGHT//20))
+            pygame.draw.rect(window, WHITE, (self.WIDTH//2 - 5, i, 10, self.HEIGHT//20))
 
         ball.draw(self.WINDOW)
         pygame.display.update()
@@ -98,7 +99,6 @@ class Game:
                 pygame.quit()
                 break
 
-
     def handle_scoring(self):
         if (self.ball.x < 0):
             self.right_score += 1
@@ -108,16 +108,16 @@ class Game:
             self.ball.reset(self.ball.x)
 
         won = False
-        if (self.left_score >= self.WINNING_SCORE):
+        if (self.left_score >= WINNING_SCORE):
             won = True
             win_text = "Left Player Won!"
 
-        elif (self.right_score >= self.WINNING_SCORE):
+        elif (self.right_score >= WINNING_SCORE):
             won = True
             win_text = "Right Player Won!"
 
         if won:
-            text = self.SCORE_FONT.render(win_text, 1, self.WHITE)
+            text = SCORE_FONT.render(win_text, 1, WHITE)
             self.WINDOW.blit(text, (self.WIDTH//2 - text.get_width()//2, self.HEIGHT//2 - text.get_height()//2))
             self.reset_game()
 
