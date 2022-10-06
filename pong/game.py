@@ -5,11 +5,6 @@ pygame.init()
 
 class Game:
 
-    FPS = 60
-    SCORE_FONT = pygame.font.SysFont("futura", 50)
-    WINNING_SCORE = 5
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
 
     def __init__(self, WIDTH, HEIGHT) -> None:
         pygame.display.set_caption("PongAI")
@@ -17,20 +12,25 @@ class Game:
         # constants
         self.WIDTH, self.HEIGHT = WIDTH, HEIGHT
         self.WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+       
+        self.SCORE_FONT = pygame.font.SysFont("futura", 50)
+        self.WINNING_SCORE = 5
+        self.WHITE = (255, 255, 255)
+        self.BLACK = (0, 0, 0)
         
         # initial game set
         self.left_paddle = Paddle(10, self.HEIGHT//2 - Paddle.HEIGHT//2, Paddle.WIDTH, Paddle.HEIGHT)
         self.right_paddle = Paddle(self.WIDTH - 10 - Paddle.WIDTH, self.HEIGHT//2 - Paddle.HEIGHT//2, Paddle.WIDTH, Paddle.HEIGHT)
         self.ball = Ball(self.WIDTH //2, self.HEIGHT // 2, Ball.RADIUS)
 
-        self.left_score = 0
-        self.right_score = 0
+        self._left_score = 0
+        self._right_score = 0
 
     def render(self, window, paddles, ball, left_score, right_score):
-        window.fill(BLACK)
+        window.fill(self.BLACK)
 
-        left_score_text = SCORE_FONT.render(f"{self.left_score}", 1, WHITE)
-        right_score_text = SCORE_FONT.render(f"{self.right_score}", 1, WHITE)
+        left_score_text = self.SCORE_FONT.render(f"{left_score}", 1, self.WHITE)
+        right_score_text = self.SCORE_FONT.render(f"{right_score}", 1, self.WHITE)
         window.blit(left_score_text, (self.WIDTH // 4 - left_score_text.get_width()//2, 20))
         window.blit(right_score_text, (self.WIDTH * (3/4) - right_score_text.get_width()//2, 20))
 
@@ -41,7 +41,7 @@ class Game:
         for i in range(10, self.HEIGHT, self.HEIGHT//20):
             if i % 2 == 1:
                 continue
-            pygame.draw.rect(window, WHITE, (self.WIDTH//2 - 5, i, 10, self.HEIGHT//20))
+            pygame.draw.rect(window, self.WHITE, (self.WIDTH//2 - 5, i, 10, self.HEIGHT//20))
 
         ball.draw(self.WINDOW)
         pygame.display.update()
@@ -92,32 +92,25 @@ class Game:
         if (keys[pygame.K_DOWN] and (right_paddle.y + right_paddle.VEL +right_paddle.height <= self.HEIGHT)):
             right_paddle.move(up=False)
 
-    def handle_quitting(self):
-        for event in pygame.event.get():
-            # when player clicks close window btn
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                break
-
     def handle_scoring(self):
         if (self.ball.x < 0):
-            self.right_score += 1
+            self._right_score += 1
             self.ball.reset(self.ball.x)
         elif (self.ball.x > self.WIDTH):
-            self.left_score += 1
+            self._left_score += 1
             self.ball.reset(self.ball.x)
 
         won = False
-        if (self.left_score >= WINNING_SCORE):
+        if (self._left_score >= self.WINNING_SCORE):
             won = True
             win_text = "Left Player Won!"
 
-        elif (self.right_score >= WINNING_SCORE):
+        elif (self._right_score >= self.WINNING_SCORE):
             won = True
             win_text = "Right Player Won!"
 
         if won:
-            text = SCORE_FONT.render(win_text, 1, WHITE)
+            text = self.SCORE_FONT.render(win_text, 1, self.WHITE)
             self.WINDOW.blit(text, (self.WIDTH//2 - text.get_width()//2, self.HEIGHT//2 - text.get_height()//2))
             self.reset_game()
 
@@ -127,18 +120,18 @@ class Game:
         self.ball.reset(0)
         self.left_paddle.reset()
         self.right_paddle.reset()
-        self.left_score = 0
-        self.right_score = 0
+        self._left_score = 0
+        self._right_score = 0
 
     def loop(self): 
-        self.render(self.WINDOW, [self.left_paddle, self.right_paddle], self.ball, self.left_score, self.right_score) 
+        self.render(self.WINDOW, [self.left_paddle, self.right_paddle], self.ball, self._left_score, self._right_score) 
 
         # reads key input
         keys = pygame.key.get_pressed()
         self.handle_paddle_movement(keys, self.left_paddle, self.right_paddle)
 
         # handle logic
-        self.handle_quitting()
+        # self.handle_quitting()
         self.ball.move()
         self.handle_collision(self.ball, self.left_paddle, self.right_paddle)
         self.handle_scoring()

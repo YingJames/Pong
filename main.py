@@ -12,8 +12,14 @@ class PongGame:
         while is_running:
             clock = pygame.time.Clock()
             clock.tick(60)
-
             game_info = self.pong.loop()
+            
+            for event in pygame.event.get():
+                # when player clicks close window btn
+                if event.type == pygame.QUIT:
+                    is_running = False
+                    break
+        pygame.quit()
 
 if __name__ == "__main__":
     pong_program = PongGame()
