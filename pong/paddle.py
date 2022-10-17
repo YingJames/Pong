@@ -3,7 +3,7 @@ import pygame
 class Paddle:
     WIDTH, HEIGHT = 20, 100
     COLOR = (255, 255, 255)
-    VEL = 4
+    VEL = 13
 
     def __init__(self, x, y, width, height) -> None:
         self.x = self.original_x = x

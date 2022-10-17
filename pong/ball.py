@@ -2,8 +2,8 @@ import pygame
 
 class Ball:
     RADIUS = 7
-    INIT_VEL = 3
-    MAX_VEL = 6
+    INIT_VEL = 5
+    MAX_VEL = 13
     COLOR = (255, 255, 255)
 
     def __init__(self, x, y, radius):

@@ -1,11 +1,9 @@
 import pygame
 from .ball import Ball
 from .paddle import Paddle
-pygame.init() 
+pygame.init()  
 
 class Game:
-
-
     def __init__(self, WIDTH, HEIGHT) -> None:
         pygame.display.set_caption("PongAI")
 
