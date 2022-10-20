@@ -1,2 +1,2 @@
-# PongAI
-Machine Learning trained to play Pong by using the NEAT algorithmn
+A recreation of the popular game of pong using the pygame library
+
